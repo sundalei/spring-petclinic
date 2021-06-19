@@ -3,6 +3,7 @@ services:
     petclinic:
         build: 
             context: .
+            target: development
         ports: 
             - 8080:8080
             - 8000:8000
@@ -11,10 +12,9 @@ services:
             - MYSQL_URL=jdbc:mysql://mysqlserver/petclinic
         volumes: 
             - ./:/app
-        command: ./mvnw spring-boot:run -Dspring-boot.run.profiles=mysql -Dspring-boot.run.jvmArguments="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000"
 
     mysqlserver:
-        image: mysql:8.0.23
+        image: mariadb:latest
         ports: 
             - 3306:3306
         environment: 
