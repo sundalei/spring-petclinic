@@ -1,3 +1,4 @@
 docker volume create mysql_data
 docker volume create mysql_config
 docker network create mysqlnet
+docker run
