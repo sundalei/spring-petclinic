@@ -1,22 +1,21 @@
 # syntax=docker/dockerfile:1.2
 
-FROM openjdk:16 as base
+FROM maven:3-openjdk-16-slim as base
 
 WORKDIR /app
 
-COPY .mvn/ .mvn
-COPY mvnw pom.xml ./
-RUN ./mvnw dependency:go-offline
+COPY pom.xml ./
+RUN mvn dependency:go-offline
 COPY src ./src
 
 FROM base as test
-RUN ["./mvnw", "test"]
+RUN ["mvn", "test"]
 
 FROM base as development
-CMD ["./mvnw", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 
 FROM base as build
-RUN ./mvnw package
+RUN mvn package
 
 FROM openjdk:11-jre-slim as production
 EXPOSE 8080
