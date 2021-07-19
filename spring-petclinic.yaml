@@ -4,7 +4,7 @@ metadata:
   name: petclinic-deployment
   namespace: default
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: petclinic
@@ -20,8 +20,6 @@ spec:
           limits:
             memory: "512Mi"
             cpu: "500m"
-        ports:
-        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
