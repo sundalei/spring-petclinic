@@ -5,7 +5,7 @@ FROM maven:latest as base
 WORKDIR /app
 
 COPY pom.xml local-settings.xml ./
-RUN mvn --settings ./local-settings.xml dependency:go-offline
+RUN mvn --settings ./local-settings.xml && mvn dependency:go-offline
 COPY src src
 
 FROM base as test
