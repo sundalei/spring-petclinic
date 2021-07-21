@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.2
+# syntax=docker/dockerfile:1.2-labs
 
 FROM maven:3.6.3-openjdk-16-slim as base
 
