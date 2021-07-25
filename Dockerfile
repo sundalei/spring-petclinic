@@ -14,7 +14,7 @@ RUN mvn test
 FROM base as development
 CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 
-FROM base as build
+FROM test as build
 RUN mvn package
 
 FROM openjdk:11-jre-slim as production
