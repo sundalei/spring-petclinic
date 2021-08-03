@@ -1,18 +1,19 @@
 # syntax=docker/dockerfile:1.2-labs
 
-FROM maven:3.6.3-openjdk-16-slim as base
+FROM maven:latest as base
 
 WORKDIR /app
 
-COPY pom.xml .
-RUN mvn dependency:go-offline
+COPY pom.xml settings.xml ./
+RUN mvn -s settings.xml dependency:go-offline
 COPY src src
 
 FROM base as test
 RUN mvn test
 
 FROM base as development
-CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
+CMD ["mvn", "spring-boot:run", "-Dspring-boot.run.profiles=mysql", \ 
+    "-Dspring-boot.run.jvmArguments='-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:8000'"]
 
 FROM test as build
 RUN mvn package
