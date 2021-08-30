@@ -1,11 +1,11 @@
 # syntax=docker/dockerfile:1.2-labs
 
-FROM maven:3.6.3-openjdk-16-slim as base
+FROM maven:latest as base
 
 WORKDIR /app
 
 COPY pom.xml .
-RUN mvn dependency:go-offline
+RUN mvn -s /usr/share/maven/ref/settings-docker.xml dependency:resolve
 COPY src src
 
 FROM base as test
